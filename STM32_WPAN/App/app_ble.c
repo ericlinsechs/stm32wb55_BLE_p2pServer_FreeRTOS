@@ -253,15 +253,8 @@ uint8_t a_ManufData[14] = {sizeof(a_ManufData)-1,
 /* Global variables ----------------------------------------------------------*/
 osMutexId_t MtxHciId;
 osSemaphoreId_t SemHciId;
-osThreadId_t AdvUpdateProcessId;
 osThreadId_t HciUserEvtProcessId;
 osThreadId_t adv_cancel_thread_handle;
-
-const osThreadAttr_t AdvUpdateProcess_attr = {
-    .name = "ADV_UPDATE_PROCESS",
-    .priority = osPriorityNone,
-    .stack_size = (128 * 20)
-};
 
 const osThreadAttr_t HciUserEvtProcess_attr = {
     .name = "HCI_USER_EVT_PROCESS",
@@ -283,8 +276,6 @@ static void Ble_Tl_Init(void);
 static void Ble_Hci_Gap_Gatt_Init(void);
 static const uint8_t* BleGetBdAddress(void);
 static void Adv_Request(APP_BLE_ConnStatus_t NewStatus);
-static void AdvUpdateProcess(void *argument);
-static void Adv_Update(void);
 static void Adv_Cancel(void);
 static void Adv_Cancel_Req(void);
 static void Switch_OFF_GPIO(void);
@@ -394,7 +385,6 @@ void APP_BLE_Init(void)
   /**
    * From here, all initialization are BLE application specific
    */
-  AdvUpdateProcessId = osThreadNew(AdvUpdateProcess, NULL, &AdvUpdateProcess_attr);
   adv_cancel_thread_handle = osThreadNew(adv_cancel_thread, NULL, &adv_cancel_thread_attr);
 
   /**
@@ -1323,24 +1313,6 @@ static void adv_cancel_thread(void *argument)
     osThreadFlagsWait(1, osFlagsWaitAny, osWaitForever);
     Adv_Cancel();
   }
-}
-
-static void AdvUpdateProcess(void *argument)
-{
-  UNUSED(argument);
-
-  for(;;)
-  {
-    osThreadFlagsWait(1, osFlagsWaitAny, osWaitForever);
-    Adv_Update();
-  }
-}
-
-static void Adv_Update(void)
-{
-  Adv_Request(APP_BLE_LP_ADV);
-
-  return;
 }
 
 static void HciUserEvtProcess(void *argument)

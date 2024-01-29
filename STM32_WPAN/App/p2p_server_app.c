@@ -279,25 +279,6 @@ void P2PS_Send_Notification(void)
     APP_DBG_MSG("-- P2P APPLICATION SERVER  : INFORM CLIENT BUTTON 1 PUSHED \n ");
     APP_DBG_MSG(" \n\r");
     P2PS_STM_App_Update_Char(P2P_NOTIFY_CHAR_UUID, (uint8_t *)&P2P_Server_App_Context.ButtonControl);
-
-    // uint8_t *pPayload = (uint8_t *)&P2P_Server_App_Context.ButtonControl;
-    // uint16_t UUID = P2P_NOTIFY_CHAR_UUID;
-
-    // switch(UUID)
-    // {
-    //   case P2P_NOTIFY_CHAR_UUID:
-
-    //     aci_gatt_update_char_value(aPeerToPeerContext.PeerToPeerSvcHdle,
-		// 				aPeerToPeerContext.P2PNotifyServerToClientCharHdle,
-		// 				0, /* charValOffset */
-		// 				2, /* charValueLen */
-		// 				(uint8_t *)  pPayload);
-
-    //     break;
-
-    //   default:
-    //     break;
-    // }
   } else {
     APP_DBG_MSG("-- P2P APPLICATION SERVER : CAN'T INFORM CLIENT -  NOTIFICATION DISABLED\n "); 
   }

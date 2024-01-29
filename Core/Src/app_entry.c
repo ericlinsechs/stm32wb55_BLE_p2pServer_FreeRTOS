@@ -81,13 +81,9 @@ osSemaphoreId_t SemShciId;
 osThreadId_t ShciUserEvtProcessId;
 
 const osThreadAttr_t ShciUserEvtProcess_attr = {
-    .name = CFG_SHCI_USER_EVT_PROCESS_NAME,
-    .attr_bits = CFG_SHCI_USER_EVT_PROCESS_ATTR_BITS,
-    .cb_mem = CFG_SHCI_USER_EVT_PROCESS_CB_MEM,
-    .cb_size = CFG_SHCI_USER_EVT_PROCESS_CB_SIZE,
-    .stack_mem = CFG_SHCI_USER_EVT_PROCESS_STACK_MEM,
-    .priority = CFG_SHCI_USER_EVT_PROCESS_PRIORITY,
-    .stack_size = CFG_SHCI_USER_EVT_PROCESS_STACK_SIZE
+    .name = "SHCI_USER_EVT_PROCESS",
+    .priority = osPriorityNone,
+    .stack_size =  (128 * 20)
 };
 
 /* Private functions prototypes-----------------------------------------------*/
